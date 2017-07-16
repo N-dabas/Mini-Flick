@@ -1,0 +1,74 @@
+<% include  partials/header.ejs %>
+<div class='container'>
+    <header class='jumbotron'>
+        <div class='container'>
+                <div class='row'>
+                    <div class="col-lg-8">
+                        <h1> <%= user.fname %> <%= user.lname %> </h1>
+                        <br>
+                        <% if (currentuser.id != user._id ) { %>
+                            <% if (currentuser.followed.indexOf(user._id)>-1){ %>
+                            <form action="/unfollow/<%= currentuser._id %>/<%= user._id %>" method="POST">
+                            <button class='btn btn-warning btn-lg'>UnFollow <i class="glyphicon glyphicon-remove"> </i></button>
+                            </form>
+                            <% } else { %>
+                            <form action="/follow/<%= currentuser._id %>/<%= user._id %>" method="POST">
+                            <button class='btn btn-success btn-lg'>Follow <i class="glyphicon glyphicon-ok"> </i></button><br><br>
+                            </form>
+                            <form action="#" method="POST">
+                            <button class='btn btn-success btn-sm'>Recomment A Movie<i class="glyphicon glyphicon-ok"> </i></button>
+                            </form>
+                            <% } %>
+                        <% } %>
+                        <form action="/watchlist/<%= user._id %>" method="GET">
+                                <br><p> <button class='btn btn-info btn-md'>Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></button> </p>
+                        </form>
+                        
+                        
+                        <!--<%= currentuser.followed %>-->
+                        <!--<%= user._id %>-->
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="text-right"> 
+                        <dl class="dl-horizontal">
+                            
+                            <h4>
+                            <dt>Country:</dt>
+                            <dd><%= user.country %></dd>
+                            <dt>Age:</dt>
+                            <dd><%= user.age %></dd>
+                            <dt>Gender :</dt>
+                            <dd><%= user.Gender %></dd><br>
+                            <dt>Favorite Movie :</dt>
+                            <dd><%= user.fmovie %></dd><br>
+                            <dt>Favorite Actor :</dt>
+                            <dd><%= user.factor %></dd><br>
+                            <dt>Interests :</dt>
+                            <dd><%= user.interest %></dd><br>
+                            </h4>
+                        </dl>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </header>
+    
+    <div class='row text-center' style="display:flex; flex-wrap:wrap;">
+        <% movies.forEach(function(movie){ %>
+            <div class='col-lg-3 col-sm-6'>
+                <div class='thumbnail'>
+                    <img src="<%= movie.data.Poster %> " height=300 width=300>
+                    <div class='caption'>
+                        <h4><%= movie.data.Title %></h4>
+                    </div>
+                    <p>
+                        <a href="/review/<%= movie._id %>">More info </a>
+                    </p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+<% include partials/footer.ejs %>
