@@ -1,11 +1,10 @@
 <% include partials/header.ejs %>
-
+<% if(data["Search"]) {%>
 <div class="container">
 <h2> Results for "<%= keyword %>"</h2>
 <br>
 <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% data["Search"].forEach(function(movie){ %>
-        
             <div class='col-lg-3 col-sm-6'>
                 <div class="thumbnail">
                     <% if (movie["Poster"] !== 'N/A' ) {%>
@@ -13,11 +12,11 @@
                     <% }else{ %>
                         <img src="http://www.freeiconspng.com/uploads/no-image-icon-23.jpg" >
                     <% } %>
-                    
+
                     <div class='caption'>
                         <h4> <a href="/movie/<%= movie["imdbID"] %>" ><%= movie["Title"] %> - <%= movie["Year"] %></a></h4>
                     </div>
-                   
+
                     <form action="/addreview/<%= movie["imdbID"] %>" method="GET">
                         <button class="btn btn-sm btn-warning">Add Review</button>
                         <br><br>
@@ -30,9 +29,13 @@
                         <button class="btn btn-sm btn-success">Add to Watchlist</button>
                         <br><br>
                     </form>
-                </div>    
+                </div>
             </div>
         <% }) %>
+        <% }else{ %>
+        <h2> No results for "<%= keyword %>", Try again <a href="/search">Search</a>
+        <% } %>
+
     </div>
 </div>
 </div>
