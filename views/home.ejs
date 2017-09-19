@@ -25,7 +25,7 @@
     </header>
     <h2 class="review" align="center"> Recent Reviews by People you follow </h2><br>
 
-    <div class='row text-center' style="display:flex; flex-wrap:wrap;">
+    <div class='row text-center' style="display:flex;flex-wrap:wrap;background: rgba(223, 240, 216, 0.35);border-radius: 10px;padding: 10px;padding-bottom: 0px; border: 2px solid #008000;">
         <% all_movies.forEach(function(movie){ %>
             <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
@@ -45,7 +45,7 @@
     </div>
     <% if(my_movies.length!==0) {%>
     <h2  class = "review" align="center"> Reviews by you </h2>
-    <div class='row text-center' style="display:flex; flex-wrap:wrap;">
+    <div class='row text-center' style="display:flex;flex-wrap:wrap;background: rgba(223, 240, 216, 0.35);border-radius: 10px;padding: 10px;padding-bottom: 0px; border: 2px solid #008000;">
         <% my_movies.forEach(function(movie){ %>
             <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
