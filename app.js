@@ -440,9 +440,7 @@ app.get("/home",function(req,res){
                 Movie.find({'author.id':{'$in':user.followed}},function(err,all_movies){
                 res.render("home.ejs", {all_movies:all_movies, my_movies:mymovies});
                 })
-
             })
-
     })
 })
 

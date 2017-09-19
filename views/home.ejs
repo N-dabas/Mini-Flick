@@ -23,19 +23,19 @@
             </div>
          </div>
     </header>
-    <h1> Recent Reviews by People you follow </h1><br>
-    
+    <h2 class="review" align="center"> Recent Reviews by People you follow </h2><br>
+
     <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% all_movies.forEach(function(movie){ %>
-            <div class='col-lg-3 col-sm-6'>
+            <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
                     <img src="<%= movie.data.Poster %> " height=300 width=300>
                     <div class='caption'>
                         <h4><a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %></a></h4>
                     </div>
-                    
+
                         By : <%= movie.author.username %>
-                    
+
                     <p>
                         <a href="/review/<%= movie._id %>">More info </a>
                     </p>
@@ -43,10 +43,11 @@
             </div>
         <% }) %>
     </div>
-    <h1> Reviews by you </h1>
+    <% if(my_movies.length!==0) {%>
+    <h2  class = "review" align="center"> Reviews by you </h2>
     <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% my_movies.forEach(function(movie){ %>
-            <div class='col-lg-3 col-sm-6'>
+            <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
                     <img src="<%= movie.data.Poster %> " height=300 width=300>
                     <div class='caption'>
@@ -59,5 +60,6 @@
             </div>
         <% }) %>
     </div>
+    <% } %>
 </div>
 <% include partials/footer.ejs %>
