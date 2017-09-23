@@ -1,0 +1,15 @@
+<% include partials/header.ejs %>
+
+<div class="container" style="text-align:center">
+    <h3> Review the Movie</h3>
+    <h2><%= movie["Title"] %></h2>
+    
+    <div><img src="<%= movie["Poster"] %>"></div>
+    <br>
+    <form action="/addreview/<%= movie["imdbID"] %>" method="POST">
+        <div><textarea rows="5" cols="50" palceholder="Add a review" name="review"> </textarea></div>
+        <button class="btn btn-xs btn-success">Submit</button>
+    </form>    
+</div>
+
+<% include partials/footer.ejs %>
