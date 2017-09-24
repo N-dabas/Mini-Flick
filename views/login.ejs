@@ -8,13 +8,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
     </head>
-
+    <style>
+    body{
+      background: url("/images/film_bg0.jpg");
+      background-size:100%;
+    }
+    </style>
 <body>
 <div class="container">
     <div class="row">
 
-        <div style="width:30% ; margin:75px auto;">
-            <h2 style="text-align:center;">Login</h2>
+        <div style="width:30% ; margin:200px auto;">
+            <h2 style="text-align:center; color: white;">Login</h2>
             <form action="/login" method="POST"> <!--send the POST data to post.campgrounds-->
                 <div class="form-group">
                     <input class="form-control" type="text" name="username" placeholder="Username">
@@ -26,7 +31,7 @@
                     <button class="btn btn-lg btn-primary btn-block"> Sign into your account <i class="fa fa-sign-in" aria-hidden="true"></i></button>
                 </div>
             </form>
-            <a href='/'> Go back </a>
+            <a href='/' style="color: white;"> Go back </a>
         </div>
     </div>
 </div>

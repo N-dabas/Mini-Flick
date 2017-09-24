@@ -2,8 +2,8 @@
 <div class='container'>
     <header class='jumbotron'>
         <div class='container'>
-            <h2> Welcome to Movie Hub </h2>
-            <p> The best review about movies can be found here </p>
+            <h2 style="color:#333846;"> Welcome to Mini Flick </h2>
+            <p> The best reviews about movies can be found here </p>
             <p> <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a> </p>
             <p> <a class='btn btn-success btn-large' href="/watchlist/<%= currentuser._id %>"> My Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
             <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class="glyphicon glyphicon-pencil"></i></a> </p>
@@ -23,8 +23,8 @@
             </div>
          </div>
     </header>
+    <% if(all_movies.length!==0) {%>
     <h2 class="review" align="center"> Recent Reviews by Others</h2><br>
-
     <div class='row text-center' style="display:flex;flex-wrap:wrap;background: rgba(223, 240, 216, 0.35);border-radius: 10px;padding: 10px;padding-bottom: 0px;">
         <% all_movies.forEach(function(movie){ %>
             <div class='col-lg-2 col-sm-6'>
@@ -43,13 +43,16 @@
             </div>
         <% }) %>
     </div>
+    <% } %>
     <% if(my_movies.length!==0) {%>
     <h2  class = "review" align="center">Your Reviews</h2>
     <div class='row text-center' style="display:flex;flex-wrap:wrap;background: rgba(223, 240, 216, 0.35);border-radius: 10px;padding: 10px;padding-bottom: 0px;">
         <% my_movies.forEach(function(movie){ %>
             <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
-                    <img src="<%= movie.data.Poster %> " height=300 width=300>
+                    <a href="/review/<%= movie._id %>">
+                      <img src="<%= movie.data.Poster %> " height=300 width=300>
+                    </a>
                     <div class='caption'>
                         <h4> <a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %> </a></h4>
                     </div>

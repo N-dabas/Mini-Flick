@@ -1,21 +1,4 @@
 <% include partials/header %>
-<style>
-body{
-    background: #00d2ff;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #928DAB, #00d2ff);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #928DAB, #00d2ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-grad{
-    background: #C9D6FF;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-}
-
-
-</style>
-
-
 <div class="container ">
     <div class="row">
         <div class="col-md-12">
@@ -28,7 +11,7 @@ background: linear-gradient(to bottom, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, 
                         <div class="col-lg-8">
                             <br> <br>
                             <h4>
-                                
+
                             <dl class="dl-horizontal">
                                 <dt>Plot :</dt>
                                 <dd><%= movie.data.Plot %></dd><br>
@@ -41,18 +24,18 @@ background: linear-gradient(to bottom, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, 
                                 <dt>Released On :</dt>
                                 <dd><%= movie.data.Released %></dd><br>
                                 <dt>Ratings :</dt>
-                                
+
                                 <% movie.data.Ratings.forEach(function(movie){ %>
                                     <dd style="color:blue;" ><%= movie["Source"] %> - <%= movie["Value"] %></dd>
                                 <% }) %>
-    
+
                           </dl>
                           </h4>
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <div class="caption-full">
 
                     <h4><a><%=movie.data.Title%></a></h4>
@@ -70,15 +53,15 @@ background: linear-gradient(to bottom, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, 
                 <div class="text-right">
                     <a class="btn btn-success" href="/review/<%= movie._id %>/comments/new" >Add New Response <i class="fa fa-comments" aria-hidden="true"></i></i></a>
                 </div>
-            
-                <hr> 
+
+                <hr>
             <% movie.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
-                            
+
                             <p>
-                                <%= comment.text %> 
+                                <%= comment.text %>
                             </p>
                             <% if(currentuser && comment.author.id.equals(currentuser._id)) { %>
                                 <a  class="btn btn-xs btn-warning" href="/review/<%= movie._id %>/comments/<%= comment._id %>/edit">
@@ -90,12 +73,11 @@ background: linear-gradient(to bottom, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, 
                             <% } %>
                         </div>
                     </div>
-                <% }) %>    
-                
+                <% }) %>
+
             </div>
         </div>
     </div>
 </div>
 
 <% include partials/footer %>
-
