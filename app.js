@@ -413,21 +413,20 @@ app.post("/register",function(req,res){
 //Followers and Following
 //===========
 
-app.get("/followed/:userid",function(req,res){
-  User.findById(req.params.userid,function(err,user){
-    User.find({'_id':{'$in':user.followed}},function(err,userdata){
-      res.render("followed.ejs",{userdata:userdata})
-    })
-  })
-})
+// app.get("/followed/:userid",function(req,res){
+//   User.findById(req.params.userid,function(err,user){
+//     User.find({'_id':{'$in':user.followed}},function(err,userdata){
+//       res.render("following.ejs",{userdata:userdata})
+//     })
+//   })
+// })
+//
+// app.get("/followers/:userid",function(req,res){
+//   User.findById(req.params.userid,function(err,user){
+//     res.render("followers.ejs",{ user:user });
+//   })
+// })
 
-app.get("/followers/:userid",function(req,res){
-  User.findById(req.params.userid,function(err,user){
-    User.find({'_id':{'$in':user.followers}},function(err,userdata){
-      res.render("followers.ejs",{userdata:userdata})
-    })
-  })
-})
 
 //=============
 // Login form
