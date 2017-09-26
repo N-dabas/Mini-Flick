@@ -1,0 +1,15 @@
+<% include  partials/header.ejs %>
+<h1>Your Followers</h1>
+<style>
+h1,h3{
+  color: white;
+}
+</style>
+<ul>
+    <% userdata.forEach(function(user){ %>
+        <h3><li> <%= user.fname %> <%= user.lname %> <button class="btn btn-md btn-success" ><a href='/user/<%= user._id %>'> Visit Profile</a></button></li></h3>
+
+    <% })%>
+</ul>
+
+<% include partials/footer.ejs %>

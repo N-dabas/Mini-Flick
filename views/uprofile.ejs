@@ -23,16 +23,16 @@
                         <form action="/watchlist/<%= user._id %>" method="GET">
                                 <br><p> <button class='btn btn-info btn-md'>Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></button> </p>
                         </form>
-                        
-                        
+
+
                         <!--<%= currentuser.followed %>-->
                         <!--<%= user._id %>-->
                     </div>
-                    
+
                     <div class="col-lg-4">
-                        <div class="text-right"> 
+                        <div class="text-right">
                         <dl class="dl-horizontal">
-                            
+
                             <h4>
                             <dt>Country:</dt>
                             <dd><%= user.country %></dd>
@@ -48,13 +48,13 @@
                             <dd><%= user.interest %></dd><br>
                             </h4>
                         </dl>
-                        
+
                         </div>
                     </div>
                 </div>
             </div>
     </header>
-    
+
     <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% movies.forEach(function(movie){ %>
             <div class='col-lg-3 col-sm-6'>

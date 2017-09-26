@@ -89,7 +89,7 @@ app.post("/addreview/:id",function(req,res){
                   console.log(err);
               }
               else{
-                  console.log(new_movie);
+                  // console.log(new_movie);
                   res.redirect("/home");
               }
           })
@@ -104,7 +104,7 @@ app.get("/movie/:id", function(req, res){
       if(!error && response.statusCode==200){
           var movie=JSON.parse(body)
           res.render('movie.ejs',{ movie:movie })
-          console.log(movie);
+          // console.log(movie);
       }
    });
 });
@@ -125,10 +125,10 @@ app.get("/uSearch",function(req,res){
 app.get("/user/:id",function(req,res){
     User.findById(req.params.id,function(err,user){
         Movie.find({'author.username':user.username},function(err,movies){
-            console.log(user.fname);
-            console.log(user.Gender);
-            console.log(user);
-            console.log(movies);
+            // console.log(user.fname);
+            // console.log(user.Gender);
+            // console.log(user);
+            // console.log(movies);
             res.render("uprofile.ejs",{user:user, movies:movies})
 
         })
@@ -144,6 +144,10 @@ app.post("/follow/:follower/:master",function(req,res){
         user.save();
         res.redirect("/user/"+req.params.master)
     })
+    User.findById(req.params.master,function(err,user){
+        user.followers.push(req.params.follower);
+        user.save();
+    })
 })
 
 app.post("/unfollow/:follower/:master",function(req,res){
@@ -151,6 +155,9 @@ app.post("/unfollow/:follower/:master",function(req,res){
     User.update({ _id: req.params.follower }, { "$pull": { "followed": req.params.master }}, { safe: true, multi:true },function(err, obj){
         res.redirect("/user/"+req.params.master)
     });
+    User.update({ _id: req.params.master }, { "$pull": { "followers": req.params.follower }}, { safe: true, multi:true },function(err, obj){
+    });
+
 
 })
 
@@ -380,30 +387,6 @@ app.delete("/review/:id",function(req,res){
     })
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //===================
 //Register and Save
 //===================
@@ -426,6 +409,26 @@ app.post("/register",function(req,res){
     });
 });
 
+//===========
+//Followers and Following
+//===========
+
+app.get("/followed/:userid",function(req,res){
+  User.findById(req.params.userid,function(err,user){
+    User.find({'_id':{'$in':user.followed}},function(err,userdata){
+      res.render("followed.ejs",{userdata:userdata})
+    })
+  })
+})
+
+app.get("/followers/:userid",function(req,res){
+  User.findById(req.params.userid,function(err,user){
+    User.find({'_id':{'$in':user.followers}},function(err,userdata){
+      res.render("followers.ejs",{userdata:userdata})
+    })
+  })
+})
+
 //=============
 // Login form
 //=============
@@ -438,7 +441,7 @@ app.get("/home",function(req,res){
     User.findById(req.user._id,function(err,user){
             Movie.find({'author.id':req.user._id},function(err,mymovies){
                 Movie.find({'author.id':{'$in':user.followed}},function(err,all_movies){
-                res.render("home.ejs", {all_movies:all_movies, my_movies:mymovies});
+                res.render("home.ejs", {all_movies:all_movies, my_movies:mymovies, userinfo:user});
                 })
             })
     })

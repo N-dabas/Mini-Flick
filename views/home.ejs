@@ -1,10 +1,23 @@
 <% include  partials/header.ejs %>
+<style>
+.followers{
+  background: red;
+  color: white;
+}
+.followed{
+  background: red;
+  color: white;
+}
+</style>
 <div class='container'>
     <header class='jumbotron'>
         <div class='container'>
-            <h2 style="color:#333846;"> Welcome to Mini Flick </h2>
+            <h2 style="color:#333846;"> Welcome to Mini Flick
+              <p> <a class='btn followers btn-large' href="/followers/<%= currentuser._id %>"> Followers </a> </p>
+              <p> <a class='btn followed btn-large' href="/followed/<%= currentuser._id %>"> Following </a> </p>
+            </h2>
             <p> The best reviews about movies can be found here </p>
-            <p> <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a> </p>
+            <p> <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a></p>
             <p> <a class='btn btn-success btn-large' href="/watchlist/<%= currentuser._id %>"> My Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
             <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class="glyphicon glyphicon-pencil"></i></a> </p>
             <div class="text-right">
