@@ -40,7 +40,6 @@ app.use(function(req,res,next){
     next();
 });
 
-
 app.get("/",function(req,res){
     res.render("landing.ejs");
 })
@@ -94,7 +93,6 @@ app.post("/addreview/:id",function(req,res){
                   res.redirect("/home");
               }
           })
-
       }
   });
 })
@@ -121,6 +119,13 @@ app.get("/uSearch",function(req,res){
         res.render("usearch.ejs",{users:users, key:username})
     })
 })
+app.get("/reviewSearch",function(req,res){
+    var reviewname=req.query.review_key.charAt(0).toUpperCase()+req.query.review_key.slice(1);
+    Movie.find({'data.Title':new RegExp(reviewname)},function(err,reviews){
+        // console.log(reviews);
+        res.render("reviews.ejs",{reviews:reviews, reviewname:req.query.review_key})
+    })
+})
 
 
 app.get("/user/:id",function(req,res){
@@ -131,10 +136,8 @@ app.get("/user/:id",function(req,res){
             // console.log(user);
             // console.log(movies);
             res.render("uprofile.ejs",{user:user, movies:movies})
-
         })
     })
-
 })
 
 
@@ -158,8 +161,6 @@ app.post("/unfollow/:follower/:master",function(req,res){
     });
     User.update({ _id: req.params.master }, { "$pull": { "followers": req.params.follower }}, { safe: true, multi:true },function(err, obj){
     });
-
-
 })
 
 
@@ -174,8 +175,6 @@ app.get("/user/:id/edit",function(req,res){
     User.findById(req.params.id,function(err,user){
         res.render("editprofile.ejs",{ user:user })
     })
-
-
 });
 
 //UPDATE Profile
@@ -188,9 +187,7 @@ app.put("/user/:id/edit",function(req,res){
         else{
             res.redirect("/home");
         }
-
     })
-
 })
 
 
@@ -214,10 +211,7 @@ app.post("/addwatchlist/:id/:movie_id/add",function(req,res){
             console.log("This movie is already in you watchlist");
             res.redirect("/watchlist/"+req.params.id);
         }
-
     })
-
-
 });
 
 app.get("/watchlist/:id",function(req,res){
@@ -232,9 +226,6 @@ app.post("/watchlist/:id/remove",function(req,res){
     res.redirect("/watchlist/"+req.params.id);
 });
 });
-
-
-
 
 //===============
 //COMMENT ROUTES
@@ -279,8 +270,6 @@ app.get("/review/:id/comments/:comment_id/edit",function(req,res){
     Comment.findById(req.params.comment_id,function(err,comment){
         res.render("editcomment.ejs",{ movie_id:req.params.id, comment:comment})
     })
-
-
 });
 
 //UPDATE COMMENT
@@ -293,9 +282,7 @@ app.put("/review/:id/comments/:comment_id/edit",function(req,res){
         else{
             res.redirect("/review/"+req.params.id);
         }
-
     })
-
 })
 
 //DELETE COMMENT
@@ -326,7 +313,6 @@ app.get("/review/:id",function(req,res){
             console.log(err);
         }
         else{
-
             res.render("review.ejs",{ movie:movie })
         }
     })
@@ -339,7 +325,6 @@ app.get("/review/:id/edit",function(req,res){
     Movie.findById(req.params.id,function(err,movie){
          res.render("edit.ejs", {movie: movie});
     })
-
 })
 
 //UPDATE

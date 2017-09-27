@@ -1,0 +1,25 @@
+<% include  partials/header.ejs %>
+<% if(reviews.length>0) { %>
+<h1 style="color:white; text-align:center;"> Recent Reviews </h1>
+<div class='row text-center' style="display:flex;flex-wrap:wrap;background: rgba(223, 240, 216, 0.35);border-radius: 10px;padding: 10px;padding-bottom: 0px;">
+    <% reviews.forEach(function(movie){ %>
+        <div class='col-lg-2 col-sm-6'>
+            <div class='thumbnail'>
+                <a href="/review/<%= movie._id %>">
+                  <img src="<%= movie.data.Poster %> " height=300 width=300>
+                </a>
+                <div class='caption'>
+                    <h4> <a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %> </a></h4>
+                </div>
+                <p>
+                    <a href="/review/<%= movie._id %>">More info </a>
+                </p>
+            </div>
+        </div>
+    <% }) %>
+</div>
+</div>
+<% } else {%>
+<h1 style="color:white;"> No reviews for "<%= reviewname %>" </h1>
+<% } %>
+<% include partials/footer.ejs %>

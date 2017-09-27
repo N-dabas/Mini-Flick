@@ -2,12 +2,16 @@
 <style>
 .followers{
       background: rgb(255, 205, 0);
-  color: white;
+ color:#0c42ad;
   margin-left: 550px;
 }
 .followed{
       background: rgba(150, 0, 255, 0.51);
   color: white;
+}
+.input-group-xs{
+  width: 250px;
+  padding-bottom: 0px;
 }
 </style>
 <div class='container'>
@@ -18,14 +22,21 @@
               <a class='btn followed btn-large' href="/follow/<%= 2 %>/<%= currentuser._id %>"> Following </a>
             </h2>
             <!-- <p> The best reviews about movies can be found here </p> -->
-            <p> <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a></p>
+            <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a>
+            <div class="text-right">
+                  <form action="/reviewSearch" method="GET">
+                      <div class="input-group input-group-xs">
+                        <input type="text" class="form-control" name="review_key" placeholder="Search Reviews">
+                        <div class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                      </div>
+                  </form>
+            </div>
+
             <p> <a class='btn btn-success btn-large' href="/watchlist/<%= currentuser._id %>"> Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
             <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class="glyphicon glyphicon-pencil"></i></a> </p>
             <div class="text-right">
-                <!--<form action="/uSearch" method="GET">-->
-                <!--    <input type="text" class="form-control" name="user_key" placeholder="Search User" >-->
-                <!--    <button class="btn btn-info btn-sm"> Submit</button>-->
-                <!--</form>-->
                 <form action="/uSearch" method="GET">
                     <div class="input-group input-group-lg">
                       <input type="text" class="form-control" name="user_key" placeholder="Search User">
