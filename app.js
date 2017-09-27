@@ -220,31 +220,11 @@ app.post("/addwatchlist/:id/:movie_id/add",function(req,res){
 
 });
 
-
-// app.post("/addwatchlist/:id/:movie_id/add",function(req,res){
-//     User.findOne({_id:req.params.id},{"watchlist": {"$elemMatch": {"imdb_id":req.params.movie_id}}},function(err,movie){
-//         console.log(movie.watchlist.imdb_id);
-//         res.redirect("/watchlist/"+req.params.id);
-
-//     })
-// });
-
 app.get("/watchlist/:id",function(req,res){
     User.findById(req.params.id,function(err,user){
         res.render("watchlist.ejs",{user:user})
     })
 })
-
-
-// app.post("/watchlist/:id/remove",function(req,res){
-//     User.findById(req.params.id,function(err,user){
-//         console.log(user.watchlist);
-//         console.log(req.body.newmovie.name);
-//         user.watchlist.pull({"name":req.body.newmovie.name});
-//         res.redirect("/watchlist/"+req.params.id);
-
-//     })
-// });
 
 app.post("/watchlist/:id/remove",function(req,res){
     var delmovie=req.body.newmovie.name;
@@ -414,20 +394,22 @@ app.post("/register",function(req,res){
 //Followers and Following
 //===========
 
-// app.get("/followed/:userid",function(req,res){
-//   User.findById(req.params.userid,function(err,user){
-//     User.find({'_id':{'$in':user.followed}},function(err,userdata){
-//       res.render("following.ejs",{userdata:userdata})
-//     })
-//   })
-// })
-//
-// app.get("/followers/:userid",function(req,res){
-//   User.findById(req.params.userid,function(err,user){
-//     res.render("followers.ejs",{ user:user });
-//   })
-// })
-
+app.get("/follow/:action/:userid",function(req,res){
+  if(req.params.action==="1"){
+    User.findById(req.params.userid,function(err,user){
+      User.find({'_id':{'$in':user.followers}},function(err,userdata){
+        res.render("followUsers.ejs",{userdata:userdata, action:req.params.action })
+      })
+    })
+  }
+  else if (req.params.action==="2"){
+    User.findById(req.params.userid,function(err,user){
+      User.find({'_id':{'$in':user.followed}},function(err,userdata){
+        res.render("followUsers.ejs",{userdata:userdata, action:req.params.action})
+      })
+    })
+  }
+})
 
 //=============
 // Login form

@@ -1,0 +1,35 @@
+<% include  partials/header.ejs %>
+<% if(action==1) { %>
+  <h1>Your Followers (<%= userdata.length %>) </h1>
+  <style>
+  h1,h3{
+    color: white;
+  }
+  </style>
+  <ul>
+      <% userdata.forEach(function(user){ %>
+          <h3><li> <%= user.fname %> <%= user.lname %> <button class="btn btn-md btn-success" ><a href='/user/<%= user._id %>'> Visit Profile</a></button></li></h3>
+      <% })%>
+  </ul>
+<% } else if (action==2) { %>
+  <h1>You Follow (<%= userdata.length %>) </h1>
+  <style>
+  h1,h3{
+    color: white;
+  }
+  .btn-warning{
+    margin-left:20px;
+  }
+  </style>
+  <ul>
+      <% userdata.forEach(function(user){ %>
+          <h3><li> <%= user.fname %> <%= user.lname %> <button class="btn btn-md btn-success" ><a href='/user/<%= user._id %>'> Visit Profile
+          <form action="/unfollow/<%= currentuser._id %>/<%= user._id %>" method="POST">
+          <button class='btn btn-warning btn-md'>UnFollow <i class="glyphicon glyphicon-remove"> </i></button>
+          </form>
+          </a></button></li></h3>
+      <% })%>
+  </ul>
+  <%}%>
+
+<% include partials/footer.ejs %>
