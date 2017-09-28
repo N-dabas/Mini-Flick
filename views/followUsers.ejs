@@ -30,6 +30,14 @@
           </a></button></li></h3>
       <% })%>
   </ul>
+  <%} else if (action==3) {%>
+    <% userdata.forEach(function(user){ %>
+        <h3><li> <%= user.fname %> <%= user.lname %> <button class="btn btn-md btn-success" ><a href='/user/<%= user._id %>'> Visit Profile
+        <form action="/recommend/<%= currentuser._id %>/<%= currentuser.username %>/<%= user._id %>/<%= movieId %>" method="GET">
+        <button class='btn btn-success btn-md'> Recommend </i></button>
+        </form>
+        </a></button></li></h3>
+    <% })%>
   <%}%>
 
 <% include partials/footer.ejs %>

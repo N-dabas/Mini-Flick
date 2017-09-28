@@ -29,6 +29,10 @@
                         <button class="btn btn-sm btn-success">Add to Watchlist</button>
                         <br><br>
                     </form>
+                    <form action="/recommend/<%= currentuser._id %>/<%= movie["imdbID"] %>" method="GET">
+                        <button class="btn btn-sm btn-success">Recommend</button>
+                        <br><br>
+                    </form>
                 </div>
             </div>
         <% }) %>

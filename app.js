@@ -396,6 +396,57 @@ app.get("/follow/:action/:userid",function(req,res){
   }
 })
 
+//===================
+//Movie Recommendation
+//====================
+
+app.get("/recommend/:userid/:movieId",function(req,res){
+  User.findById(req.params.userid,function(err,user){
+    User.find({'_id':{'$in':user.followed}},function(err,userdata){
+      res.render("followUsers.ejs",{userdata:userdata, action:3, movieId:req.params.movieId})
+    })
+  })
+})
+
+app.get("/recommend/:master/:username/:slave/:movieId", function(req,res){
+  var movie_id=req.params.movieId;
+  console.log(req.params.username);
+  var url="http://www.omdbapi.com/?i="+movie_id+"&apikey=thewdb"
+  request(url, function(error, response, body){
+    if(!error && response.statusCode==200){
+        var data=JSON.parse(body)
+        var imdb_id=data.imdbID
+        var name=data.Title
+        var image=data.Poster
+        var year=data.Year
+        var movieDetails=data
+        var recommender={
+          id:req.params.master,
+          username:req.params.username
+        }
+        var recommendation={recommender, imdb_id, name, image, year}
+        User.findById(req.params.slave, function(err,user){
+          user.recommendations.push(recommendation);
+          user.save();
+          res.redirect('/search');
+        })
+    }
+ });
+})
+
+app.get("/recommendations/:userid", function(req,res){
+    User.findById(req.params.userid,function(err,user){
+      res.render("recommendations.ejs",{user:user})
+    })
+})
+
+app.post("/recommendations/:id/remove",function(req,res){
+    User.update({ _id: req.params.id }, { "$pull": { "recommendations": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
+    res.redirect("/recommendations/"+req.params.id);
+});
+});
+
+
 //=============
 // Login form
 //=============

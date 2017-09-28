@@ -11,28 +11,20 @@
                             <form action="/unfollow/<%= currentuser._id %>/<%= user._id %>" method="POST">
                             <button class='btn btn-warning btn-lg'>UnFollow <i class="glyphicon glyphicon-remove"> </i></button>
                             </form>
+                            <a href="/search"><button class='btn btn-success btn-sm' >Recomment A Movie<i class="glyphicon glyphicon-ok"> </i></button></a>
                             <% } else { %>
                             <form action="/follow/<%= currentuser._id %>/<%= user._id %>" method="POST">
                             <button class='btn btn-success btn-lg'>Follow <i class="glyphicon glyphicon-ok"> </i></button><br><br>
-                            </form>
-                            <form action="#" method="POST">
-                            <button class='btn btn-success btn-sm'>Recomment A Movie<i class="glyphicon glyphicon-ok"> </i></button>
                             </form>
                             <% } %>
                         <% } %>
                         <form action="/watchlist/<%= user._id %>" method="GET">
                                 <br><p> <button class='btn btn-info btn-md'>Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></button> </p>
                         </form>
-
-
-                        <!--<%= currentuser.followed %>-->
-                        <!--<%= user._id %>-->
                     </div>
-
                     <div class="col-lg-4">
                         <div class="text-right">
                         <dl class="dl-horizontal">
-
                             <h4>
                             <dt>Country:</dt>
                             <dd><%= user.country %></dd>
@@ -48,7 +40,6 @@
                             <dd><%= user.interest %></dd><br>
                             </h4>
                         </dl>
-
                         </div>
                     </div>
                 </div>

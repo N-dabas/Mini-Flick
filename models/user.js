@@ -14,7 +14,8 @@ var userSchema=new mongoose.Schema({
     Gender: String,
     age: Number,
     country:String,
-    followers:Array
+    followers:Array,
+    recommendations:Array
 })
 
 
