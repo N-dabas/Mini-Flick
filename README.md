@@ -6,4 +6,4 @@ To access the current version go to this link- https://boiling-coast-34151.herok
 
 **Application Screenshots**
 
-![alt tag](https://github.com/N-dabas/Mini-Flick/tree/master/screenshots/1.png)
+![alt tag](https://github.com/N-dabas/Mini-Flick/blob/master/screenshots/1.png)
