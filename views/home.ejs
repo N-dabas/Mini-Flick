@@ -13,6 +13,14 @@
   width: 250px;
   padding-bottom: 0px;
 }
+.form{
+  display: inline-block;
+margin-bottom: -12px;
+margin-left: 25px;
+}
+.form-container{
+  display: inline-block;
+}
 </style>
 <div class='container'>
     <header class='jumbotron'>
@@ -23,8 +31,8 @@
             </h2>
             <!-- <p> The best reviews about movies can be found here </p> -->
             <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a>
-            <div class="text-right">
-                  <form action="/reviewSearch" method="GET">
+                <p class="form-container">
+                  <form class="form" action="/reviewSearch" method="GET">
                       <div class="input-group input-group-xs">
                         <input type="text" class="form-control" name="review_key" placeholder="Search Reviews">
                         <div class="input-group-btn">
@@ -32,10 +40,9 @@
                         </div>
                       </div>
                   </form>
-            </div>
-
+                <p>
             <p> <a class='btn btn-success btn-large' href="/watchlist/<%= currentuser._id %>"> Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
-            <p> <a class='btn btn-success btn-large' href="/recommendations/<%= currentuser._id %>"> Recommendation <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
+            <p> <a class='btn btn-success btn-large' href="/recommendations/<%= currentuser._id %>"> Recommendations <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
             <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class="glyphicon glyphicon-pencil"></i></a> </p>
             <div class="text-right">
                 <form action="/uSearch" method="GET">
