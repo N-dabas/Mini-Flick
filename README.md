@@ -4,4 +4,4 @@ To access the current version go to this link- https://boiling-coast-34151.herok
 
 ![alt text](https://github.com/N-dabas/Mini-Flick/tree/master/screenshots/1.png)
 
-#(https://github.com/N-dabas/Mini-Flick/tree/master/screenshots/1.png?raw=true "Optional Title")
+![alt tag](https://github.com/N-dabas/Mini-Flick/tree/master/screenshots/1.png?raw=true "Optional Title")
