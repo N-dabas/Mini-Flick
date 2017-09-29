@@ -1,2 +1,5 @@
 ## Mini-Flick
-Work in progress for movie reviewing and recommendation system.
+
+To access the current version go to this link- https://boiling-coast-34151.herokuapp.com/
+
+
