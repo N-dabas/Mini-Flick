@@ -1,25 +1,39 @@
 <% include  partials/header.ejs %>
 <style>
 .followers{
-      background: rgb(255, 205, 0);
- color:#0c42ad;
-  margin-left: 550px;
+      background: rgb(56, 181, 138);
+      color: white;
+      margin-left: 560px;
+}
+.followers:hover{
+  color:#11417c;
 }
 .followed{
-      background: rgba(150, 0, 255, 0.51);
   color: white;
+  background: #11417c;
+}
+.followed:hover{
+  color: rgb(56, 181, 138);
 }
 .input-group-xs{
   width: 250px;
   padding-bottom: 0px;
 }
-.form{
+.form_review{
   display: inline-block;
 margin-bottom: -12px;
 margin-left: 25px;
 }
+.form_search{
+display: inline-block;
+margin-bottom: -12px;
+/*margin-left: 25px;*/
+}
 .form-container{
   display: inline-block;
+}
+.button{
+  margin-left: 5px;
 }
 </style>
 <div class='container'>
@@ -30,9 +44,17 @@ margin-left: 25px;
               <a class='btn followed btn-large' href="/follow/<%= 2 %>/<%= currentuser._id %>"> Following </a>
             </h2>
             <!-- <p> The best reviews about movies can be found here </p> -->
-            <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a>
+            <!-- <a class='btn btn-primary btn-large' href="/search"> Search your Movie  <i class="glyphicon glyphicon-search"></i></a> -->
                 <p class="form-container">
-                  <form class="form" action="/reviewSearch" method="GET">
+                  <form class="form_search" action="/results" method="GET">
+                      <div class="input-group input-group-xs">
+                        <input type="text" class="form-control" name="search" placeholder="Add Reviews">
+                        <div class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                      </div>
+                  </form>
+                  <form class="form_review" action="/reviewSearch" method="GET">
                       <div class="input-group input-group-xs">
                         <input type="text" class="form-control" name="review_key" placeholder="Search Reviews">
                         <div class="input-group-btn">
@@ -41,9 +63,9 @@ margin-left: 25px;
                       </div>
                   </form>
                 <p>
-            <p> <a class='btn btn-success btn-large' href="/watchlist/<%= currentuser._id %>"> Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
-            <p> <a class='btn btn-success btn-large' href="/recommendations/<%= currentuser._id %>"> Recommendations <i class="glyphicon glyphicon-menu-hamburger"> </i></a> </p>
-            <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class="glyphicon glyphicon-pencil"></i></a> </p>
+            <p> <a class='btn btn-primary btn-large' href="/watchlist/<%= currentuser._id %>"> Watchlist <i class="button glyphicon glyphicon-menu-hamburger"> </i></a> </p>
+            <p> <a class='btn btn-success btn-large' href="/recommendations/<%= currentuser._id %>"> Recommendations <i class="button glyphicon glyphicon-film"> </i></a> </p>
+            <!-- <p> <a class='btn btn-info btn-large' href="/user/<%= currentuser._id %>/edit"> Edit Profile <i class=" button glyphicon glyphicon-edit"></i></a> </p> -->
             <div class="text-right">
                 <form action="/uSearch" method="GET">
                     <div class="input-group input-group-lg">

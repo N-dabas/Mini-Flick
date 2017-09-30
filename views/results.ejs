@@ -1,7 +1,13 @@
 <% include partials/header.ejs %>
+<style>
+h3{
+  color:white;
+      margin-left: 20px;
+}
+</style>
 <% if(data["Search"]) {%>
 <div class="container">
-<h2> Results for "<%= keyword %>"</h2>
+<h3> Results for "<%= keyword %>"</h3>
 <br>
 <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% data["Search"].forEach(function(movie){ %>
@@ -37,7 +43,7 @@
             </div>
         <% }) %>
         <% }else{ %>
-        <h2> No results for "<%= keyword %>", Try again <a href="/search">Search</a>
+        <h3> No results for "<%= keyword %>", <a href="/home">Try Again</a></h3>
         <% } %>
 
     </div>
