@@ -1,25 +1,33 @@
 <% include  partials/header.ejs %>
+<style>
+.button{
+  margin-left: 5px;
+}
+.col-lg-3 {
+    width: 20%;
+}
+</style>
 <div class='container'>
     <header class='jumbotron'>
         <div class='container'>
                 <div class='row'>
                     <div class="col-lg-8">
-                        <h1> <%= user.fname %> <%= user.lname %> </h1>
+                        <h1 style="font-size:50px;"> <%= user.fname %> <%= user.lname %> </h1>
                         <br>
                         <% if (currentuser.id != user._id ) { %>
                             <% if (currentuser.followed.indexOf(user._id)>-1){ %>
                             <form action="/unfollow/<%= currentuser._id %>/<%= user._id %>" method="POST">
-                            <button class='btn btn-warning btn-lg'>UnFollow <i class="glyphicon glyphicon-remove"> </i></button>
+                            <p><button class='btn btn-warning btn-md'>UnFollow <i class=" button glyphicon glyphicon-remove"> </i></button></p>
                             </form>
-                            <a href="/search"><button class='btn btn-success btn-sm' >Recomment A Movie<i class="glyphicon glyphicon-ok"> </i></button></a>
+                            <p class="recommend"><a href="/search"><button class='btn btn-success btn-md' >Recomment A Movie<i class="recommend button glyphicon glyphicon-film"> </i></button></a></p>
                             <% } else { %>
                             <form action="/follow/<%= currentuser._id %>/<%= user._id %>" method="POST">
-                            <button class='btn btn-success btn-lg'>Follow <i class="glyphicon glyphicon-ok"> </i></button><br><br>
+                            <p><button class='btn btn-success btn-md'>Follow <i class="glyphicon glyphicon-ok"> </i></button></p>
                             </form>
                             <% } %>
                         <% } %>
                         <form action="/watchlist/<%= user._id %>" method="GET">
-                                <br><p> <button class='btn btn-info btn-md'>Watchlist <i class="glyphicon glyphicon-menu-hamburger"> </i></button> </p>
+                                <p> <button class='btn btn-primary btn-md'>Watchlist <i class="button glyphicon glyphicon-menu-hamburger"> </i></button> </p>
                         </form>
                     </div>
                     <div class="col-lg-4">
