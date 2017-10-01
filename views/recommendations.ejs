@@ -13,10 +13,10 @@
                         <img src="http://www.freeiconspng.com/uploads/no-image-icon-23.jpg" >
                     <% } %>
 
-                    <div class='caption'>
+                    <div>
                         <h4><a href="/movie/<%= movie.imdb_id %>" ><%= movie.name %> - <%= movie.year %> </a></h4>
                     </div>
-                    <div class='caption'>
+                    <div>
                         <a href="/user/<%= movie.recommender.id %>"><h4>By: <%= movie.recommender.username %></a></h4>
                     </div>
                     <form action="/recommendations/<%= currentuser._id %>/remove" method="POST">

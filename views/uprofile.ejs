@@ -19,7 +19,7 @@
                             <form action="/unfollow/<%= currentuser._id %>/<%= user._id %>" method="POST">
                             <p><button class='btn btn-warning btn-md'>UnFollow <i class=" button glyphicon glyphicon-remove"> </i></button></p>
                             </form>
-                            <p class="recommend"><a href="/search"><button class='btn btn-success btn-md' >Recomment A Movie<i class="recommend button glyphicon glyphicon-film"> </i></button></a></p>
+                            <p class="recommend"><a href="/search"><button class='btn btn-success btn-md' >Recommend Movie<i class="recommend button glyphicon glyphicon-film"> </i></button></a></p>
                             <% } else { %>
                             <form action="/follow/<%= currentuser._id %>/<%= user._id %>" method="POST">
                             <p><button class='btn btn-success btn-md'>Follow <i class="glyphicon glyphicon-ok"> </i></button></p>

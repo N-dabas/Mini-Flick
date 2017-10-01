@@ -85,15 +85,11 @@ margin-bottom: -12px;
             <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
                     <img src="<%= movie.data.Poster %> " height=300 width=300>
-                    <div class='caption'>
+                    <div>
                         <h4><a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %></a></h4>
                     </div>
-
-                        By : <%= movie.author.username %>
-
-                    <p>
-                        <a href="/review/<%= movie._id %>">More info </a>
-                    </p>
+                        <a href="/review/<%= movie._id %>">Read Review</a><br>
+                    Reviewer: <%= movie.author.username %>
                 </div>
             </div>
         <% }) %>
@@ -112,7 +108,7 @@ margin-bottom: -12px;
                         <h4> <a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %> </a></h4>
                     </div>
                     <p>
-                        <a href="/review/<%= movie._id %>">More info </a>
+                        <a href="/review/<%= movie._id %>">Read Review</a>
                     </p>
                 </div>
             </div>

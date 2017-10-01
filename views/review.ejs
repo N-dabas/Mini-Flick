@@ -1,4 +1,10 @@
 <% include partials/header %>
+<style>
+.big_font{
+  font-size: 16px;
+}
+</style>
+
 <div class="container ">
     <div class="row">
         <div class="col-md-12">
@@ -9,38 +15,43 @@
                             <img class="img-responsive" src="<%= movie.data.Poster %>" height=300 width=300>
                         </div>
                         <div class="col-lg-8">
-                            <br> <br>
+                          <h4 style="display:inline-block; font-size:22px; margin-left:20%"><%=movie.data.Title%></h4>
+                          <form style="display:inline; margin-left: 20px;" action="/addwatchlist/<%= currentuser._id %>/<%= movie.data.imdbID %>/add" method="POST">
+                              <input type="hidden" name="newmovie[imdb_id]" value="<%= movie.data.imdbID %>"  >
+                              <input type="hidden" name="newmovie[name]" value="<%= movie.data.Title %>"  >
+                              <input type="hidden" name="newmovie[image]" value="<%= movie.data.Poster %>" >
+                              <input type="hidden" name="newmovie[year]" value="<%= movie.data.Year %>" >
+                              <button class="btn btn-md btn-primary" style="margin-top:-10px;">Add to Watchlist  <i class="glyphicon glyphicon-plus"></i></button>
+                              <br><br>
+                          </form>
                             <h4>
-
                             <dl class="dl-horizontal">
                                 <dt>Plot :</dt>
                                 <dd><%= movie.data.Plot %></dd><br>
                                 <dt>Actors :</dt>
-                                <dd><%= movie.data.Actors %></dd><br>
+                                <dd><%= movie.data.Actors %></dd>
                                 <dt>Awards :</dt>
-                                <dd><%= movie.data.Awards %></dd><br>
+                                <dd><%= movie.data.Awards %></dd>
                                 <dt>Genre :</dt>
                                 <dd><%= movie.data.Genre %></dd><br>
-                                <dt>Released On :</dt>
+                                <dt>Released:</dt>
                                 <dd><%= movie.data.Released %></dd><br>
-                                <dt>Ratings :</dt>
-
-                                <% movie.data.Ratings.forEach(function(movie){ %>
-                                    <dd style="color:blue;" ><%= movie["Source"] %> - <%= movie["Value"] %></dd>
-                                <% }) %>
-
+                                <dt>Reviewer :</dt>
+                                <dd><%= movie.author.username %></dd>
+                                <dt>Review :</dt>
+                                <dd><%= movie.review %></dd><br>
                           </dl>
                           </h4>
                         </div>
                     </div>
                 </div>
-
-
                 <div class="caption-full">
-
-                    <h4><a><%=movie.data.Title%></a></h4>
-                    <p><%= movie.review %></p>
-                    <p><em>Submitted By:</em> <%= movie.author.username %> </p>
+                  <div style="margin-left:10px; font-size:15px;">
+                    <b>Ratings</b>
+                    <% movie.data.Ratings.forEach(function(movie){ %>
+                        <dd style="color:blue;" ><%= movie["Source"] %> - <%= movie["Value"] %></dd>
+                    <% }) %>
+                  </div>
                     <% if(currentuser && movie.author.id.equals(currentuser._id)) { %>
                         <a href="/review/<%= movie._id %>/edit" class="btn btn-warning">Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         <form id="delete-form" action="/review/<%= movie._id %>?_method=DELETE" method="POST">
@@ -59,7 +70,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
-
                             <p>
                                 <%= comment.text %>
                             </p>
@@ -74,7 +84,6 @@
                         </div>
                     </div>
                 <% }) %>
-
             </div>
         </div>
     </div>

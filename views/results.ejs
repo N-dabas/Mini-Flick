@@ -4,10 +4,16 @@ h3{
   color:white;
       margin-left: 20px;
 }
+/*.thumbnail{
+  background: #2193b0;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}*/
 </style>
 <% if(data["Search"]) {%>
 <div class="container">
-<h3> Results for "<%= keyword %>"</h3>
+<h2> Results for "<%= keyword %>"</h2>
 <br>
 <div class='row text-center' style="display:flex; flex-wrap:wrap;">
         <% data["Search"].forEach(function(movie){ %>
@@ -23,16 +29,16 @@ h3{
                         <h4> <a href="/movie/<%= movie["imdbID"] %>" ><%= movie["Title"] %> - <%= movie["Year"] %></a></h4>
                     </div>
 
-                    <form action="/addreview/<%= movie["imdbID"] %>" method="GET">
+                    <form style="display:inline-block;" action="/addreview/<%= movie["imdbID"] %>" method="GET">
                         <button class="btn btn-sm btn-warning">Add Review</button>
                         <br><br>
                     </form>
-                    <form action="/addwatchlist/<%= currentuser._id %>/<%= movie["imdbID"] %>/add" method="POST">
+                    <form style="display:inline-block;" action="/addwatchlist/<%= currentuser._id %>/<%= movie["imdbID"] %>/add" method="POST">
                         <input type="hidden" name="newmovie[imdb_id]" value="<%= movie["imdbID"] %>"  >
                         <input type="hidden" name="newmovie[name]" value="<%= movie["Title"] %>"  >
                         <input type="hidden" name="newmovie[image]" value="<%= movie["Poster"] %>" >
                         <input type="hidden" name="newmovie[year]" value="<%= movie["Year"] %>" >
-                        <button class="btn btn-sm btn-success">Add to Watchlist</button>
+                        <button class="btn btn-sm btn-primary">Add to Watchlist</button>
                         <br><br>
                     </form>
                     <form action="/recommend/<%= currentuser._id %>/<%= movie["imdbID"] %>" method="GET">

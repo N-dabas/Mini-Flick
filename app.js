@@ -15,8 +15,8 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-// mongoose.connect("mongodb://localhost/mfinder");
-mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
+mongoose.connect("mongodb://localhost/mfinder");
+// mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
 
@@ -428,7 +428,7 @@ app.get("/recommend/:master/:username/:slave/:movieId", function(req,res){
         User.findById(req.params.slave, function(err,user){
           user.recommendations.push(recommendation);
           user.save();
-          res.redirect('/search');
+          res.redirect('/user/'+req.params.slave);
         })
     }
  });
