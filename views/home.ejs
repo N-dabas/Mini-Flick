@@ -84,11 +84,13 @@ margin-bottom: -12px;
         <% all_movies.forEach(function(movie){ %>
             <div class='col-lg-2 col-sm-6'>
                 <div class='thumbnail'>
+                  <a href="/review/<%= movie._id %>">
                     <img src="<%= movie.data.Poster %> " height=300 width=300>
+                  </a>
                     <div>
-                        <h4><a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %></a></h4>
+                        <h4><a href="/review/<%= movie._id %>"><%= movie.data.Title %></a></h4>
                     </div>
-                        <a href="/review/<%= movie._id %>">Read Review</a><br>
+                        <a href="/movie/<%= movie.mid %>" >Read More</a><br>
                     Reviewer: <%= movie.author.username %>
                 </div>
             </div>
@@ -105,10 +107,10 @@ margin-bottom: -12px;
                       <img src="<%= movie.data.Poster %> " height=300 width=300>
                     </a>
                     <div class='caption'>
-                        <h4> <a href="/movie/<%= movie.mid %>" ><%= movie.data.Title %> </a></h4>
+                        <h4> <a href="/review/<%= movie._id %>"><%= movie.data.Title %> </a></h4>
                     </div>
                     <p>
-                        <a href="/review/<%= movie._id %>">Read Review</a>
+                        <a href="/movie/<%= movie.mid %>" >Read More</a>
                     </p>
                 </div>
             </div>
