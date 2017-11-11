@@ -26,20 +26,20 @@
                           </form>
                             <h4>
                             <dl class="dl-horizontal">
-                                <dt>Plot :</dt>
-                                <dd><%= movie.data.Plot %></dd><br>
-                                <dt>Actors :</dt>
-                                <dd><%= movie.data.Actors %></dd>
-                                <dt>Awards :</dt>
-                                <dd><%= movie.data.Awards %></dd>
-                                <dt>Genre :</dt>
-                                <dd><%= movie.data.Genre %></dd><br>
-                                <dt>Released:</dt>
-                                <dd><%= movie.data.Released %></dd><br>
-                                <dt>Reviewer :</dt>
-                                <dd><%= movie.author.username %></dd>
-                                <dt>Review :</dt>
-                                <dd><%= movie.review %></dd><br>
+                              <dt>Plot :</dt>
+                              <dd><%= apidata.Plot %></dd><br>
+                              <dt>Actors :</dt>
+                              <dd><%= apidata.Actors %></dd>
+                              <dt>Awards :</dt>
+                              <dd><%= apidata.Awards %></dd>
+                              <dt>Genre :</dt>
+                              <dd><%= apidata.Genre %></dd><br>
+                              <dt>Released:</dt>
+                              <dd><%= apidata.Released %></dd><br>
+                              <dt>Reviewer :</dt>
+                              <dd><%= movie.author.username %></dd>
+                              <dt>Review :</dt>
+                              <dd><%= movie.review %></dd><br>
                           </dl>
                           </h4>
                         </div>
@@ -48,7 +48,7 @@
                 <div class="caption-full">
                   <div style="margin-left:10px; font-size:15px;">
                     <b>Ratings</b>
-                    <% movie.data.Ratings.forEach(function(movie){ %>
+                    <% apidata.Ratings.forEach(function(movie){ %>
                         <dd style="color:blue;" ><%= movie["Source"] %> - <%= movie["Value"] %></dd>
                     <% }) %>
                   </div>

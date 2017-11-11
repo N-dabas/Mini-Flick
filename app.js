@@ -49,6 +49,16 @@ app.get("/search",function(req,res){
 })
 
 
+function movieCall(id){
+  console.log(id);
+  var url="http://www.omdbapi.com/?i="+id+"&plot=full&apikey=thewdb"
+  request(url, function(error, response, body){
+    if(!error && response.statusCode==200){
+        var movie=JSON.parse(body);
+        return "movie";
+    }
+ });
+}
 
 app.get("/results", function(req, res){
     var keyword=req.query.search;
@@ -82,7 +92,12 @@ app.post("/addreview/:id",function(req,res){
     var url="http://www.omdbapi.com/?i="+movie_id+"&apikey=thewdb"
     request(url, function(error, response, body){
       if(!error && response.statusCode==200){
-          var data=JSON.parse(body)
+          var data=JSON.parse(body);
+          var imdbID=data.imdbID;
+          var Title=data.Title;
+          var Poster=data.Poster;
+          var data={Title,imdbID, Poster};
+          console.log(data);
           var new_review={ mid:movie_id, review:review, data:data, author:author};
           Movie.create(new_review,function(err,new_movie){
               if(err){
@@ -308,12 +323,19 @@ app.delete("/review/:id/comments/:comment_id",function(req,res){
 //SHOW
 
 app.get("/review/:id",function(req,res){
+
     Movie.findById(req.params.id).populate("comments").exec(function(err,movie){
         if(err){
             console.log(err);
         }
         else{
-            res.render("review.ejs",{ movie:movie })
+          var url="http://www.omdbapi.com/?i="+movie.data.imdbID+"&plot=short&apikey=thewdb"
+          request(url, function(error, response, body){
+           if(!error && response.statusCode==200){
+               var moviedata=JSON.parse(body);
+               res.render("review.ejs",{ movie:movie , apidata:moviedata});
+           }
+          });
         }
     })
 
