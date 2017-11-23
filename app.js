@@ -98,14 +98,15 @@ app.post("/addreview/:id", isLoggedIn,function(req,res){
           var Title=data.Title;
           var Poster=data.Poster;
           var data={Title,imdbID, Poster};
-          console.log(data);
+          // console.log(data);
           var new_review={ mid:movie_id, review:review, data:data, author:author};
           Movie.create(new_review,function(err,new_movie){
               if(err){
-                  console.log(err);
+                  // console.log(err);
               }
               else{
                   // console.log(new_movie);
+                  req.flash("success","Review added successfully !");
                   res.redirect("/home");
               }
           })
@@ -162,6 +163,7 @@ app.post("/follow/:follower/:master", isLoggedIn,function(req,res){
     User.findById(req.params.follower,function(err,user){
         user.followed.push(req.params.master);
         user.save();
+        req.flash("success","Following this user now !");
         res.redirect("/user/"+req.params.master)
     })
     User.findById(req.params.master,function(err,user){
@@ -173,6 +175,7 @@ app.post("/follow/:follower/:master", isLoggedIn,function(req,res){
 app.post("/unfollow/:follower/:master",isLoggedIn,function(req,res){
 
     User.update({ _id: req.params.follower }, { "$pull": { "followed": req.params.master }}, { safe: true, multi:true },function(err, obj){
+        req.flash("success","Unfollowed the user successfully !");
         res.redirect("/user/"+req.params.master)
     });
     User.update({ _id: req.params.master }, { "$pull": { "followers": req.params.follower }}, { safe: true, multi:true },function(err, obj){
@@ -198,9 +201,11 @@ app.get("/user/:id/edit",profileOwner,function(req,res){
 app.put("/user/:id/edit",profileOwner,function(req,res){
     User.findByIdAndUpdate(req.params.id, req.body.user,function(err,updatedcomment){
         if(err){
+            req.flash("error",err.message)
             res.redirect("/home");
         }
         else{
+            req.flash("success","Profile updated successfully !");
             res.redirect("/home");
         }
     })
@@ -219,12 +224,14 @@ app.post("/addwatchlist/:id/:movie_id/add",isLoggedIn,function(req,res){
             User.findById(req.params.id,function(err,user){
                 user.watchlist.push(req.body.newmovie);
                 user.save();
+                req.flash("success","Movie added to watchlist successfully !");
                 res.redirect("/watchlist/"+req.params.id);
             })
         }
         else
         {
-            console.log("This movie is already in you watchlist");
+            // console.log("This movie is already in you watchlist");
+            req.flash("error","This movie is already in your watchlist !");
             res.redirect("/watchlist/"+req.params.id);
         }
     })
@@ -239,6 +246,7 @@ app.get("/watchlist/:id",isLoggedIn,function(req,res){
 app.post("/watchlist/:id/remove",isLoggedIn,function(req,res){
     var delmovie=req.body.newmovie.name;
     User.update({ _id: req.params.id }, { "$pull": { "watchlist": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
+    req.flash("success","Movie removed from watchlist successfully !");
     res.redirect("/watchlist/"+req.params.id);
 });
 });
@@ -264,7 +272,7 @@ app.get("/review/:id/comments/new", isLoggedIn  ,function(req,res){
 app.post("/review/:id/comments",isLoggedIn,function(req,res){
     Movie.findById(req.params.id,function(err,movie){
         if(err){
-            console.log(err);
+            // console.log(err);
             res.redirect("/home");
         }
         else{
@@ -327,7 +335,7 @@ app.get("/review/:id",isLoggedIn,function(req,res){
 
     Movie.findById(req.params.id).populate("comments").exec(function(err,movie){
         if(err){
-            console.log(err);
+            // console.log(err);
         }
         else{
           var url="http://www.omdbapi.com/?i="+movie.data.imdbID+"&plot=short&apikey=thewdb"
@@ -355,9 +363,11 @@ app.get("/review/:id/edit", reviewOwner,function(req,res){
 app.put("/review/:id",reviewOwner,function(req,res){
     Movie.findByIdAndUpdate(req.params.id, req.body.movie,function(err,updatedmovie){
         if(err){
+            req.flash("error",err.message);
             res.redirect("/home");
         }
         else{
+            req.flash("success","Review updated successfully !")
             res.redirect("/review/"+req.params.id);
         }
     })
@@ -368,9 +378,11 @@ app.put("/review/:id",reviewOwner,function(req,res){
 app.delete("/review/:id",reviewOwner,function(req,res){
     Movie.findByIdAndRemove(req.params.id,function(err,moviedeleted){
         if(err){
+            req.flash("error",err.message);
             res.redirect("/home");
         }
         else{
+            req.flash("error","Review deleted successfully !")
             res.redirect("/home");
         }
     })
@@ -389,10 +401,11 @@ app.post("/register",function(req,res){
     var newuser= new User({username:req.body.username, interest:req.body.interests ,fname:req.body.fname, lname:req.body.lname,factor:req.body.factor,fmovie:req.body.fmovie });
     User.register(newuser,req.body.password,function(err,user){
         if(err){
-            console.log(err);
+            req.flash("error", err.messagesu)
             return res.render("register");
         }
         passport.authenticate("local")(req,res,function(){
+            req.flash("success", "Welcome to Mini-Flick" + req.user._id)
             res.redirect("/home");
         });
     });
@@ -463,6 +476,7 @@ app.get("/recommendations/:userid", isLoggedIn, function(req,res){
     })
 })
 
+
 app.post("/recommendations/:id/remove",isLoggedIn,function(req,res){
     User.update({ _id: req.params.id }, { "$pull": { "recommendations": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     res.redirect("/recommendations/"+req.params.id);
@@ -493,6 +507,7 @@ app.post("/login",passport.authenticate("local",
         successRedirect:"/home",
         failureRedirect:"/login"
     }), function(req,res){
+        req.flash("success","Successfully logged in !")
         res.redirect("/home");
 });
 
@@ -518,11 +533,13 @@ function reviewOwner(req,res,next){
         if(movie.author.id.equals(req.user._id)){
           next();
         } else {
-          res.redirect("back");
+          req.flash("error","You don't have the permission to do that !")
+          res.redirect("/home");
         }
     });
   }else {
-      res.redirect("back");
+      req.flash("error","Check your credentials!");
+      res.redirect("/login");
     }
 }
 
@@ -532,11 +549,13 @@ function profileOwner(req,res,next){
         if(user._id.equals(req.user._id)){
           next();
         } else {
-          res.redirect("back");
+          req.flash("error","You don't have the permission to do that !")
+          res.redirect("/home");
         }
     });
   }else {
-      res.redirect("back");
+      req.flash("error","Check your credentials!");
+      res.redirect("/login");
     }
 }
 
