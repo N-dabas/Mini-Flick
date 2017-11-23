@@ -247,7 +247,7 @@ app.post("/watchlist/:id/remove",isLoggedIn,function(req,res){
     var delmovie=req.body.newmovie.name;
     User.update({ _id: req.params.id }, { "$pull": { "watchlist": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     req.flash("success","Movie removed from watchlist successfully !");
-    res.redirect("/watchlist/"+req.params.id);
+    res.redirect("/home");
 });
 });
 
