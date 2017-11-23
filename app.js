@@ -19,14 +19,15 @@ mongoose.connect("mongodb://localhost/mfinder");
 // mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
+app.use(flash());
 
 app.use(express_session({
-    secret:"Rusty is the best and cutest dog in the world",
+    secret:"This is mini flick project",
     resave:false,
     saveUninitialized:false
 }));
 
-app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localpass(User.authenticate()));
@@ -60,7 +61,7 @@ function movieCall(id){
  });
 }
 
-app.get("/results", function(req, res){
+app.get("/results", isLoggedIn, function(req, res){
     var keyword=req.query.search;
     var url="http://www.omdbapi.com/?s="+keyword+"&apikey=thewdb"
     request(url, function(error, response, body){
@@ -71,7 +72,7 @@ app.get("/results", function(req, res){
    });
 });
 
-app.get("/addreview/:id",function(req,res){
+app.get("/addreview/:id", isLoggedIn, function(req,res){
     var movie_id=req.params.id;
     var url="http://www.omdbapi.com/?i="+movie_id+"&apikey=thewdb"
     request(url, function(error, response, body){
@@ -82,7 +83,7 @@ app.get("/addreview/:id",function(req,res){
    });
 })
 
-app.post("/addreview/:id",function(req,res){
+app.post("/addreview/:id", isLoggedIn,function(req,res){
     var review=req.body.review;
     var movie_id=req.params.id;
     var author={
@@ -112,7 +113,7 @@ app.post("/addreview/:id",function(req,res){
   });
 })
 
-app.get("/movie/:id", function(req, res){
+app.get("/movie/:id", isLoggedIn, function(req, res){
     var url="http://www.omdbapi.com/?i="+req.params.id+"&plot=full&apikey=thewdb"
     request(url, function(error, response, body){
       if(!error && response.statusCode==200){
@@ -128,13 +129,13 @@ app.get("/movie/:id", function(req, res){
 // User Search
 //================
 
-app.get("/uSearch",function(req,res){
+app.get("/uSearch", isLoggedIn,function(req,res){
     var username=req.query.user_key;
     User.find({username:new RegExp(username)},function(err,users){
         res.render("usearch.ejs",{users:users, key:username})
     })
 })
-app.get("/reviewSearch",function(req,res){
+app.get("/reviewSearch", isLoggedIn,function(req,res){
     var reviewname=req.query.review_key.charAt(0).toUpperCase()+req.query.review_key.slice(1);
     Movie.find({'data.Title':new RegExp(reviewname)},function(err,reviews){
         // console.log(reviews);
@@ -143,7 +144,7 @@ app.get("/reviewSearch",function(req,res){
 })
 
 
-app.get("/user/:id",function(req,res){
+app.get("/user/:id", isLoggedIn,function(req,res){
     User.findById(req.params.id,function(err,user){
         Movie.find({'author.username':user.username},function(err,movies){
             // console.log(user.fname);
@@ -156,7 +157,7 @@ app.get("/user/:id",function(req,res){
 })
 
 
-app.post("/follow/:follower/:master",function(req,res){
+app.post("/follow/:follower/:master", isLoggedIn,function(req,res){
 
     User.findById(req.params.follower,function(err,user){
         user.followed.push(req.params.master);
@@ -169,7 +170,7 @@ app.post("/follow/:follower/:master",function(req,res){
     })
 })
 
-app.post("/unfollow/:follower/:master",function(req,res){
+app.post("/unfollow/:follower/:master",isLoggedIn,function(req,res){
 
     User.update({ _id: req.params.follower }, { "$pull": { "followed": req.params.master }}, { safe: true, multi:true },function(err, obj){
         res.redirect("/user/"+req.params.master)
@@ -186,7 +187,7 @@ app.post("/unfollow/:follower/:master",function(req,res){
 
 //EDIT Profile
 
-app.get("/user/:id/edit",function(req,res){
+app.get("/user/:id/edit",profileOwner,function(req,res){
     User.findById(req.params.id,function(err,user){
         res.render("editprofile.ejs",{ user:user })
     })
@@ -194,7 +195,7 @@ app.get("/user/:id/edit",function(req,res){
 
 //UPDATE Profile
 
-app.put("/user/:id/edit",function(req,res){
+app.put("/user/:id/edit",profileOwner,function(req,res){
     User.findByIdAndUpdate(req.params.id, req.body.user,function(err,updatedcomment){
         if(err){
             res.redirect("/home");
@@ -211,7 +212,7 @@ app.put("/user/:id/edit",function(req,res){
 //Watchlist Routes
 //===================
 
-app.post("/addwatchlist/:id/:movie_id/add",function(req,res){
+app.post("/addwatchlist/:id/:movie_id/add",isLoggedIn,function(req,res){
     User.findOne({_id:req.params.id},{"watchlist": {"$elemMatch": {"imdb_id":req.body.newmovie.imdb_id}}},function(err,movie){
         if(movie.watchlist.length == 0)
         {
@@ -229,13 +230,13 @@ app.post("/addwatchlist/:id/:movie_id/add",function(req,res){
     })
 });
 
-app.get("/watchlist/:id",function(req,res){
+app.get("/watchlist/:id",isLoggedIn,function(req,res){
     User.findById(req.params.id,function(err,user){
         res.render("watchlist.ejs",{user:user})
     })
 })
 
-app.post("/watchlist/:id/remove",function(req,res){
+app.post("/watchlist/:id/remove",isLoggedIn,function(req,res){
     var delmovie=req.body.newmovie.name;
     User.update({ _id: req.params.id }, { "$pull": { "watchlist": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     res.redirect("/watchlist/"+req.params.id);
@@ -249,7 +250,7 @@ app.post("/watchlist/:id/remove",function(req,res){
 
 //NEW COMMENT
 
-app.get("/review/:id/comments/new",function(req,res){
+app.get("/review/:id/comments/new", isLoggedIn  ,function(req,res){
     Movie.findById(req.params.id,function(err,movie){
         if(err){
             console.log(err);
@@ -260,7 +261,7 @@ app.get("/review/:id/comments/new",function(req,res){
     })
 })
 
-app.post("/review/:id/comments",function(req,res){
+app.post("/review/:id/comments",isLoggedIn,function(req,res){
     Movie.findById(req.params.id,function(err,movie){
         if(err){
             console.log(err);
@@ -281,7 +282,7 @@ app.post("/review/:id/comments",function(req,res){
 
 //EDIT COMMENT
 
-app.get("/review/:id/comments/:comment_id/edit",function(req,res){
+app.get("/review/:id/comments/:comment_id/edit",isLoggedIn,function(req,res){
     Comment.findById(req.params.comment_id,function(err,comment){
         res.render("editcomment.ejs",{ movie_id:req.params.id, comment:comment})
     })
@@ -289,7 +290,7 @@ app.get("/review/:id/comments/:comment_id/edit",function(req,res){
 
 //UPDATE COMMENT
 
-app.put("/review/:id/comments/:comment_id/edit",function(req,res){
+app.put("/review/:id/comments/:comment_id/edit",isLoggedIn,function(req,res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,function(err,updatedcomment){
         if(err){
             res.redirect("/review/"+req.params.id);
@@ -302,7 +303,7 @@ app.put("/review/:id/comments/:comment_id/edit",function(req,res){
 
 //DELETE COMMENT
 
-app.delete("/review/:id/comments/:comment_id",function(req,res){
+app.delete("/review/:id/comments/:comment_id",isLoggedIn,function(req,res){
     Comment.findByIdAndRemove(req.params.comment_id,function(err,commdel){
         if(err){
             res.redirect("/review/"+req.params.id);
@@ -322,7 +323,7 @@ app.delete("/review/:id/comments/:comment_id",function(req,res){
 
 //SHOW
 
-app.get("/review/:id",function(req,res){
+app.get("/review/:id",isLoggedIn,function(req,res){
 
     Movie.findById(req.params.id).populate("comments").exec(function(err,movie){
         if(err){
@@ -342,16 +343,16 @@ app.get("/review/:id",function(req,res){
 })
 
 //EDIT
-
-app.get("/review/:id/edit",function(req,res){
+//review/5a06963578ea743787c44d4f/edit
+app.get("/review/:id/edit", reviewOwner,function(req,res){
     Movie.findById(req.params.id,function(err,movie){
-         res.render("edit.ejs", {movie: movie});
-    })
-})
+          res.render("edit.ejs", {movie: movie});
+        });
+});
 
 //UPDATE
 
-app.put("/review/:id",function(req,res){
+app.put("/review/:id",reviewOwner,function(req,res){
     Movie.findByIdAndUpdate(req.params.id, req.body.movie,function(err,updatedmovie){
         if(err){
             res.redirect("/home");
@@ -364,7 +365,7 @@ app.put("/review/:id",function(req,res){
 
 //DELETE
 
-app.delete("/review/:id",function(req,res){
+app.delete("/review/:id",reviewOwner,function(req,res){
     Movie.findByIdAndRemove(req.params.id,function(err,moviedeleted){
         if(err){
             res.redirect("/home");
@@ -401,7 +402,7 @@ app.post("/register",function(req,res){
 //Followers and Following
 //===========
 
-app.get("/follow/:action/:userid",function(req,res){
+app.get("/follow/:action/:userid",isLoggedIn,function(req,res){
   if(req.params.action==="1"){
     User.findById(req.params.userid,function(err,user){
       User.find({'_id':{'$in':user.followers}},function(err,userdata){
@@ -422,7 +423,7 @@ app.get("/follow/:action/:userid",function(req,res){
 //Movie Recommendation
 //====================
 
-app.get("/recommend/:userid/:movieId",function(req,res){
+app.get("/recommend/:userid/:movieId",isLoggedIn,function(req,res){
   User.findById(req.params.userid,function(err,user){
     User.find({'_id':{'$in':user.followed}},function(err,userdata){
       res.render("followUsers.ejs",{userdata:userdata, action:3, movieId:req.params.movieId})
@@ -430,7 +431,7 @@ app.get("/recommend/:userid/:movieId",function(req,res){
   })
 })
 
-app.get("/recommend/:master/:username/:slave/:movieId", function(req,res){
+app.get("/recommend/:master/:username/:slave/:movieId", isLoggedIn,function(req,res){
   var movie_id=req.params.movieId;
   console.log(req.params.username);
   var url="http://www.omdbapi.com/?i="+movie_id+"&apikey=thewdb"
@@ -456,13 +457,13 @@ app.get("/recommend/:master/:username/:slave/:movieId", function(req,res){
  });
 })
 
-app.get("/recommendations/:userid", function(req,res){
+app.get("/recommendations/:userid", isLoggedIn, function(req,res){
     User.findById(req.params.userid,function(err,user){
       res.render("recommendations.ejs",{user:user})
     })
 })
 
-app.post("/recommendations/:id/remove",function(req,res){
+app.post("/recommendations/:id/remove",isLoggedIn,function(req,res){
     User.update({ _id: req.params.id }, { "$pull": { "recommendations": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     res.redirect("/recommendations/"+req.params.id);
 });
@@ -477,7 +478,7 @@ app.get("/login", function(req,res){
     res.render("login");
 })
 
-app.get("/home",function(req,res){
+app.get("/home",isLoggedIn,function(req,res){
     User.findById(req.user._id,function(err,user){
             Movie.find({'author.id':req.user._id},function(err,mymovies){
                 Movie.find({'author.id':{'$in':user.followed}},function(err,all_movies){
@@ -500,6 +501,43 @@ app.get("/logout",function(req,res){
     req.logout();
     res.redirect("/login");
 });
+
+//Middleware
+
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect("/login");
+}
+
+function reviewOwner(req,res,next){
+  if (req.isAuthenticated()){
+    Movie.findById(req.params.id,function(err,movie){
+        if(movie.author.id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect("back");
+        }
+    });
+  }else {
+      res.redirect("back");
+    }
+}
+
+function profileOwner(req,res,next){
+  if (req.isAuthenticated()){
+    User.findById(req.params.id,function(err,user){
+        if(user._id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect("back");
+        }
+    });
+  }else {
+      res.redirect("back");
+    }
+}
 
 
 app.listen(process.env.PORT, process.env.IP, function(){
