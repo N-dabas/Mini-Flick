@@ -19,7 +19,7 @@ mongoose.connect("mongodb://localhost/mfinder");
 // mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
-app.use(flash());
+
 
 app.use(express_session({
     secret:"This is mini flick project",
@@ -27,7 +27,7 @@ app.use(express_session({
     saveUninitialized:false
 }));
 
-
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localpass(User.authenticate()));
@@ -475,7 +475,7 @@ app.post("/recommendations/:id/remove",isLoggedIn,function(req,res){
 //=============
 
 app.get("/login", function(req,res){
-    res.render("login");
+    res.render("login.ejs");
 })
 
 app.get("/home",isLoggedIn,function(req,res){
@@ -493,21 +493,22 @@ app.post("/login",passport.authenticate("local",
         successRedirect:"/home",
         failureRedirect:"/login"
     }), function(req,res){
-
-        res.redirect("/home",{});
+        res.redirect("/home");
 });
 
 app.get("/logout",function(req,res){
     req.logout();
+    req.flash("success","Successfully logged you out !")
     res.redirect("/login");
 });
 
-//Middleware
+//MIDDLEWARE
 
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()){
     return next();
   }
+  req.flash("error","Please login first!");
   res.redirect("/login");
 }
 
