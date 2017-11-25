@@ -505,7 +505,8 @@ app.get("/home",isLoggedIn,function(req,res){
 app.post("/login",passport.authenticate("local",
     {
         successRedirect:"/home",
-        failureRedirect:"/login"
+        failureRedirect:"/login",
+        successFlash: "Welcome to Mini-Flick !"
     }), function(req,res){
         req.flash("success","Successfully logged in !")
         res.redirect("/home");
