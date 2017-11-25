@@ -61,9 +61,17 @@
                 </div>
             </div>
             <div class="well">
-                <div class="text-right">
+                <!-- <div class="text-right">
                     <a class="btn btn-success" href="/review/<%= movie._id %>/comments/new" >Add New Response <i class="fa fa-comments" aria-hidden="true"></i></i></a>
-                </div>
+                </div> -->
+                <form action="/review/<%= movie._id %>/comments" method="POST"> <!--send the POST data to post.campgrounds-->
+                    <div class="form-group" style="display:inline-block;">
+                        <input class="form-control" style="width:500%;"  type="text" name="comment[text]" placeholder="Comment">
+                    </div>
+                    <div class="form-group" style="display:inline-block; float:right;">
+                        <button class="btn btn-lsm btn-primary"> Add Response</button>
+                    </div>
+                </form>
 
                 <hr>
             <% movie.comments.forEach(function(comment){ %>
