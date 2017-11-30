@@ -261,7 +261,7 @@ app.post("/watchlist/:id/remove",isLoggedIn,function(req,res){
 app.get("/review/:id/comments/new", isLoggedIn  ,function(req,res){
     Movie.findById(req.params.id,function(err,movie){
         if(err){
-            console.log(err);
+            req.flash("error",err.message);
         }
         else{
             res.render("newcomment.ejs",{movie:movie});
@@ -276,7 +276,13 @@ app.post("/review/:id/comments",isLoggedIn,function(req,res){
             res.redirect("/home");
         }
         else{
+          if(req.body.comment.text.length === 0){
+            req.flash("error", "Can't post empty comments !");
+            res.redirect("/review/"+ movie.id);
+          }
+          else{
             Comment.create(req.body.comment,function(err,comment){
+                comment.date=Date();
                 comment.author.id=req.user._id;
                 comment.author.username=req.user.username;
                 comment.save();
@@ -284,6 +290,7 @@ app.post("/review/:id/comments",isLoggedIn,function(req,res){
                 movie.save();
                 res.redirect("/review/"+ movie.id);
             });
+          }
         }
     });
 });
@@ -401,11 +408,11 @@ app.post("/register",function(req,res){
     var newuser= new User({username:req.body.username, interest:req.body.interests ,fname:req.body.fname, lname:req.body.lname,factor:req.body.factor,fmovie:req.body.fmovie });
     User.register(newuser,req.body.password,function(err,user){
         if(err){
-            req.flash("error", err.messagesu)
+            req.flash("error", err.messages)
             return res.render("register");
         }
         passport.authenticate("local")(req,res,function(){
-            req.flash("success", "Welcome to Mini-Flick" + req.user._id)
+            req.flash("success", "Welcome to Mini-Flick !")
             res.redirect("/home");
         });
     });
