@@ -78,15 +78,15 @@
                 </form>
 
                 <hr>
-            <% mlist=[] %>
-            <% movie.comments.forEach(function(comment){
+            <% mlist=[]
+               newlist=[]
+               movie.comments.forEach(function(comment){
                mlist.push(comment)
                newlist= mlist.sort(function(a, b) {
                    return new Date(b.date) - new Date(a.date);
                  });
                });
-               %>
-               <% newlist.forEach(function(comment){ %>
+             newlist.forEach(function(comment){ %>
                     <div class="row comment-block">
                         <div class="col-md-12">
                           <div>
@@ -125,14 +125,3 @@
 </div>
 
 <% include partials/footer %>
-
-<!-- //sorting by date
-data=[{_id: "5a1e52c94cb8610d5f0cc03b", text: 'ajnsndsn', __v: 0, date: 'Wed Nov 29 2017 02:25:13 GMT-0500 (EST)',
-author: { id: "59c0756ba155af18bde4e665", username: 'mohit' } },
-{ _id: "5a1e52ee4cb8610d5f0cc03c", text: 'xancncncanc', __v: 0, date: 'Wed Nov 29 2017 01:25:50 GMT-0500 (EST)',
-author: { id: "59c0756ba155af18bde4e665", username: 'mohit' } },
-{ _id: "5a1e52f24cb8610d5f0cc03d", text: 'cancnacn', __v: 0, date: 'Wed Nov 29 2017 12:25:54 GMT-0500 (EST)',
-author: { id: "59c0756ba155af18bde4e665", username: 'mohit' } }]
-data.sort(function(a, b) {
-    return new Date(a.date) - new Date(b.date);
-}) -->
