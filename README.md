@@ -23,3 +23,9 @@
 
 ## User profile
 ![alt tag](https://github.com/N-dabas/Mini-Flick/blob/master/screenshots/3.png)
+
+## How to run 
+
+# Clone the project 
+# On terminal run : $ PORT=1234 nodemon app.js
+# Open the App on : localhost:1234
