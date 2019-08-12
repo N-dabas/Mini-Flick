@@ -10,6 +10,6 @@ var commentschema= new mongoose.Schema({
         },
         username:String
     }
-});
+},{ usePushEach: true });
 
 module.exports=mongoose.model("comment",commentschema)

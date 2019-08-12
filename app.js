@@ -15,8 +15,8 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-// mongoose.connect("mongodb://localhost/mfinder");
-mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
+mongoose.connect("mongodb://localhost/mfinder");
+// mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
 
@@ -286,7 +286,9 @@ app.post("/review/:id/comments",isLoggedIn,function(req,res){
                 comment.author.id=req.user._id;
                 comment.author.username=req.user.username;
                 comment.save();
+                console.log(1)
                 movie.comments.push(comment);
+
                 movie.save();
                 res.redirect("/review/"+ movie.id);
             });
@@ -569,6 +571,6 @@ function profileOwner(req,res,next){
 }
 
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, process.env.IP, function(){
     console.log(" The app has started !!")
 });

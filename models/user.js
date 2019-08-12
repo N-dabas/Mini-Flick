@@ -16,7 +16,7 @@ var userSchema=new mongoose.Schema({
     country:String,
     followers:Array,
     recommendations:Array
-})
+},{ usePushEach: true })
 
 
 userSchema.plugin(localpassmongoose);

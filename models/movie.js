@@ -18,6 +18,6 @@ var movieschema=new mongoose.Schema({
         ref: "comment"
     }
     ]
-})
+},{ usePushEach: true })
 
 module.exports=mongoose.model("movie",movieschema);
