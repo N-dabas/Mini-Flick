@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 mongoose.connect('mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test?retryWrites=true&w=majority',{
     useNewUrlParser:true,
-    useCreateIndex: true
+    useCreateIndex: true,
 }).then(() => {
     console.log('Connected to db!')
 }).catch(err => {
