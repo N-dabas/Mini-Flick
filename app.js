@@ -24,7 +24,7 @@ mongoose.connect('mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test
 }).then(() => {
     console.log('Connected to db!')
 }).catch(err => {
-    console.log('Database error encountered')
+    console.log("ERROR:", err.message)
 })
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
