@@ -15,8 +15,17 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-mongoose.connect("mongodb://localhost/mfinder");
+// mongoose.connect("mongodb://localhost/mfinder");
 // mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
+
+mongoose.connect('mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test?retryWrites=true&w=majority',{
+    useNewUrlParser:true,
+    useCreateIndex: true
+}).then(() => {
+    console.log('Connected to db!')
+}).catch(err => {
+    console.log('Database error encountered')
+})
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
 
@@ -571,6 +580,6 @@ function profileOwner(req,res,next){
 }
 
 
-app.listen(3000, process.env.IP, function(){
+app.listen(process.env.PORT || 3000, process.env.IP, function(){
     console.log(" The app has started !!")
 });
