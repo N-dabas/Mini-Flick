@@ -15,14 +15,16 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-// mongoose.connect("mongodb://localhost/mfinder");
-// mongoose.connect("mongodb://nitish:nitish@ds149874.mlab.com:49874/heroku_jpqcb6bk");
 
-mongoose.connect('mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test?retryWrites=true&w=majority',{
+
+localURL='mongodb://localhost/mfinder'
+deployedURL='mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test?retryWrites=true&w=majority'
+
+mongoose.connect(localURL,{
     useNewUrlParser:true,
     useCreateIndex: true,
 }).then(() => {
-    console.log('Connected to db!')
+    console.log("Connected to db!")
 }).catch(err => {
     console.log("ERROR:", err.message)
 })
@@ -183,11 +185,11 @@ app.post("/follow/:follower/:master", isLoggedIn,function(req,res){
 
 app.post("/unfollow/:follower/:master",isLoggedIn,function(req,res){
 
-    User.update({ _id: req.params.follower }, { "$pull": { "followed": req.params.master }}, { safe: true, multi:true },function(err, obj){
+    User.updateOne({ _id: req.params.follower }, { "$pull": { "followed": req.params.master }}, { safe: true, multi:true },function(err, obj){
         req.flash("success","Unfollowed the user successfully !");
         res.redirect("/user/"+req.params.master)
     });
-    User.update({ _id: req.params.master }, { "$pull": { "followers": req.params.follower }}, { safe: true, multi:true },function(err, obj){
+    User.updateOne({ _id: req.params.master }, { "$pull": { "followers": req.params.follower }}, { safe: true, multi:true },function(err, obj){
     });
 })
 
@@ -254,7 +256,7 @@ app.get("/watchlist/:id",isLoggedIn,function(req,res){
 
 app.post("/watchlist/:id/remove",isLoggedIn,function(req,res){
     var delmovie=req.body.newmovie.name;
-    User.update({ _id: req.params.id }, { "$pull": { "watchlist": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
+    User.updateOne({ _id: req.params.id }, { "$pull": { "watchlist": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     req.flash("success","Movie removed from watchlist successfully !");
     res.redirect("/home");
 });
@@ -497,7 +499,7 @@ app.get("/recommendations/:userid", isLoggedIn, function(req,res){
 
 
 app.post("/recommendations/:id/remove",isLoggedIn,function(req,res){
-    User.update({ _id: req.params.id }, { "$pull": { "recommendations": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
+    User.updateOne({ _id: req.params.id }, { "$pull": { "recommendations": { "name": req.body.newmovie.name } }}, { safe: true, multi:true },function(err, obj){
     res.redirect("/recommendations/"+req.params.id);
 });
 });
@@ -581,5 +583,5 @@ function profileOwner(req,res,next){
 
 
 app.listen(process.env.PORT || 3000, process.env.IP, function(){
-    console.log(" The app has started !!")
+    console.log("The app has started !!")
 });
