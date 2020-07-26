@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 localURL='mongodb://localhost/mfinder'
 deployedURL='mongodb+srv://dabas:dabas@mini-flick-db-jtonw.mongodb.net/test?retryWrites=true&w=majority'
 
-mongoose.connect(localURL,{
+mongoose.connect(deployedURL,{
     useNewUrlParser:true,
     useCreateIndex: true,
 }).then(() => {
