@@ -17,8 +17,8 @@ app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-localURL='mongodb://localhost/mfinder'
-deployedURL='mongodb://heroku_9lw9mv69:database1@ds147902.mlab.com:47902/heroku_9lw9mv69'
+localURL="mongodb://localhost/mfinder"
+deployedURL="mongodb://miniflick:miniflick1@ds147902.mlab.com:47902/heroku_9lw9mv69"
 
 mongoose.connect(deployedURL,{
     useNewUrlParser:true,
