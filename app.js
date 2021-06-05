@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 localURL="mongodb://localhost/mfinder"
-deployedURL="mongodb://miniflick:miniflick1@ds147902.mlab.com:47902/heroku_9lw9mv69"
+// deployedURL="mongodb://miniflick:miniflick1@ds147902.mlab.com:47902/heroku_9lw9mv69"
+deployedURL="mongodb+srv://dabas:<dabas>@cluster0.l00gt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 mongoose.connect(deployedURL,{
     useNewUrlParser:true,
