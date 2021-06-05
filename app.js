@@ -39,8 +39,8 @@ client.connect(err => {
 // }).catch(err => {
 //     console.log("ERROR:", err.message)
 // })
-// app.use(express.static("public"));
-// app.use(methodoverride("_method"));
+app.use(express.static("public"));
+app.use(methodoverride("_method"));
 
 
 app.use(express_session({
