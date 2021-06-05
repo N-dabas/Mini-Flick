@@ -15,7 +15,7 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-=
+
 localDevDB="mongodb+srv://dabas:dabas@cluster0.l00gt.mongodb.net/miniflick-local?retryWrites=true&w=majority"
 localDB="mongodb://localhost/mfinder"
 prodDB="mongodb+srv://dabas:dabas@cluster0.l00gt.mongodb.net/miniflick?retryWrites=true&w=majority"
