@@ -15,30 +15,21 @@ var express          = require("express"),
 mongoose.Promise = global.Promise;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:true}));
+=
+localDevDB="mongodb+srv://dabas:dabas@cluster0.l00gt.mongodb.net/miniflick-local?retryWrites=true&w=majority"
+localDB="mongodb://localhost/mfinder"
+prodDB="mongodb+srv://dabas:dabas@cluster0.l00gt.mongodb.net/miniflick?retryWrites=true&w=majority"
 
+mongoose.connect(prodDB,{
+    useNewUrlParser:true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Connected to db!")
+}).catch(err => {
+    console.log("ERROR:", err)
+})
 
-localURL="mongodb://localhost/mfinder"
-// deployedURL="mongodb://miniflick:miniflick1@ds147902.mlab.com:47902/heroku_9lw9mv69"
-// deployedURL="mongodb+srv://dabas:<dabas>@cluster0.l00gt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
-
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://dabas:<password>@cluster0.l00gt.mongodb.net/miniflick?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  // perform actions on the collection object
-  console.log("Connected to MongoDB server...");
-  // client.close();
-});
-
-// mongoose.connect(deployedURL,{
-//     useNewUrlParser:true,
-//     useCreateIndex: true,
-// }).then(() => {
-//     console.log("Connected to db!")
-// }).catch(err => {
-//     console.log("ERROR:", err.message)
-// })
 app.use(express.static("public"));
 app.use(methodoverride("_method"));
 
