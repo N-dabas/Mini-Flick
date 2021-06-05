@@ -23,12 +23,12 @@ localURL="mongodb://localhost/mfinder"
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://dabas:<password>@cluster0.l00gt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb+srv://dabas:<password>@cluster0.l00gt.mongodb.net/miniflick?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const collection = client.db("miniflick").collection("movies");
   // perform actions on the collection object
-  client.close();
+  console.log("Connected to MongoDB server...");
+  // client.close();
 });
 
 // mongoose.connect(deployedURL,{
